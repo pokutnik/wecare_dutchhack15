@@ -9,6 +9,7 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+var cfenv = require("cfenv")
 
 var appEnv = cfenv.getAppEnv();
 server.listen(appEnv.port, function () {
