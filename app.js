@@ -6,6 +6,7 @@
 
 // Setup basic express server
 var express = require('express');
+var fs = require('fs');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -26,25 +27,24 @@ io.on('connection', function (socket) {
 
   // subscrive client to live data
   socket.on('sub.live', function () {
-    socket.join('live')
+    socket.join('live');
   });
 
   socket.on('wecare', function (string) {
     //console.log('wecare:', string)
-    var data = str_to_obj(string)
+    var data = str_to_obj(string);
     if (data) {
-      broadcast_live(data)
+      broadcast_live(data);
+      store_csv(string);
     } else {
-      console.log('WARNING wrong data:', string)
+      console.log('WARNING wrong data:', string);
     }
   });
 });
 
 function str_to_obj(s) {
   var v = s.trim().split(",");
-  if (v.length != 7) {
-    return undefined
-  }
+  if (v.length != 7) { return undefined; }
 
   return {
     flow: v[0],
@@ -61,8 +61,12 @@ function broadcast_live(data) {
   io.to('live').emit('wecare', data);
 }
 
-function store(data) {
-  // TODO: add storage
+function store_csv(line) {
+  fs.appendFile("public/all_data.csv", line, function (err) {
+    if (err){
+      console.log("ERROR: could_not write file:", err)
+    }
+  });
 }
 
 function fetch(data) {
