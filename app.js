@@ -20,11 +20,13 @@ server.listen(appEnv.port, function () {
 app.use(express.static(__dirname + '/public'));
 
 io.on('connection', function (socket) {
-  console.log("New connection")
+  io.emit('newconnection', {
+    ts: new Date().toISOString()
+  });
   // when the client emits 'add user', this listens and executes
   socket.on('wecare', function (data) {
     console.log("wecare:", data)
-    socket.broadcast.emit('wecare', {
+    io.emit('wecare', {
       data: data
     });
   });
