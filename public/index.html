@@ -18,9 +18,14 @@
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
   socket = io();
+  socket.join('live');
   socket.on("newconnection", function(data) {
     console.log("DBG: got new connection", data)
   })
+
+  socket.on('wecare', function (data) {
+    console.log("DBG: wecare:", data)
+  });
 
 </script>
 </html>

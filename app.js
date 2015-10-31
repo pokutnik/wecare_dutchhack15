@@ -24,10 +24,10 @@ io.on('connection', function (socket) {
     ts: new Date().toISOString()
   });
   // when the client emits 'add user', this listens and executes
+
   socket.on('wecare', function (data) {
-    console.log("wecare:", data)
-    io.emit('wecare', {
-      data: data
-    });
+    console.log('wecare:', data)
+    io.to('live').emit('wecare', data);
   });
+
 });
