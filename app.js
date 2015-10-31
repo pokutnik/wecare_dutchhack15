@@ -62,7 +62,7 @@ function broadcast_live(data) {
 }
 
 function store_csv(line) {
-  fs.appendFile("public/all_data.csv", line, function (err) {
+  fs.appendFile("public/all_data.csv", line+"\n", function (err) {
     if (err){
       console.log("ERROR: could_not write file:", err)
     }
