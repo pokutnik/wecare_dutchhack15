@@ -8,10 +8,10 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-var io = require('../..')(server);
+var io = require('socket.io')(server);
 
 var appEnv = cfenv.getAppEnv();
-server.listen(appEnv.port, '0.0.0.0', function () {
+server.listen(appEnv.port, function () {
   console.log("server starting on " + appEnv.url);
 });
 
