@@ -29,11 +29,33 @@ io.on('connection', function (socket) {
     socket.join('live')
   });
 
-  socket.on('wecare', function (data) {
-    console.log('wecare:', data)
-    broadcast_live(data)
+  socket.on('wecare', function (string) {
+    //console.log('wecare:', string)
+    var data = str_to_obj(string)
+    if (data) {
+      broadcast_live(data)
+    } else {
+      console.log('WARNING wrong data:', string)
+    }
   });
 });
+
+function str_to_obj(s) {
+  var v = s.trim().split(",");
+  if (v.length != 7) {
+    return undefined
+  }
+
+  return {
+    flow: v[0],
+    emotion: v[1],
+    hi: v[2],
+    lo: v[3],
+    hr: v[4],
+    hrv: v[5],
+    ts: v[6]
+  }
+}
 
 function broadcast_live(data) {
   io.to('live').emit('wecare', data);
@@ -46,3 +68,5 @@ function store(data) {
 function fetch(data) {
   // TODO: add fetching
 }
+
+
