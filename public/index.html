@@ -18,7 +18,7 @@
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
   socket = io();
-  socket.join('live');
+  socket.emit('sub.live');
   socket.on("newconnection", function(data) {
     console.log("DBG: got new connection", data)
   })

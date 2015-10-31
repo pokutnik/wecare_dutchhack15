@@ -23,11 +23,26 @@ io.on('connection', function (socket) {
   io.emit('newconnection', {
     ts: new Date().toISOString()
   });
-  // when the client emits 'add user', this listens and executes
+
+  // subscrive client to live data
+  socket.on('sub.live', function () {
+    socket.join('live')
+  });
 
   socket.on('wecare', function (data) {
     console.log('wecare:', data)
-    io.to('live').emit('wecare', data);
+    broadcast_live(data)
   });
-
 });
+
+function broadcast_live(data) {
+  io.to('live').emit('wecare', data);
+}
+
+function store(data) {
+  // TODO: add storage
+}
+
+function fetch(data) {
+  // TODO: add fetching
+}
