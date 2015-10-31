@@ -10,9 +10,12 @@ var fs = require('fs');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-var cfenv = require("cfenv")
+var cfenv = require('cfenv');
+
 
 var appEnv = cfenv.getAppEnv();
+
+
 server.listen(appEnv.port, function () {
   console.log("server starting on " + appEnv.url);
 });
@@ -41,6 +44,19 @@ io.on('connection', function (socket) {
     }
   });
 });
+
+if (appEnv.isLocal) {
+  console.log("WARNING: Sending sample events")
+  lines = fs.readFileSync('public/sample.csv', {encoding: "ascii"}).split("\n")
+    setInterval(function(){
+      line = lines.pop()
+      var data = str_to_obj(line);
+      if(data){
+        data.ts = new Date().getTime();
+        broadcast_live(data);
+      }
+    }, 1000);
+}
 
 function str_to_obj(s) {
   var v = s.trim().split(",");
