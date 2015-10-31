@@ -18,14 +18,20 @@
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
   socket = io();
-  socket.emit('sub.live');
-  socket.on("newconnection", function(data) {
-    console.log("DBG: got new connection", data)
-  })
 
+  // Subscribe to live "wecare" stream
+  socket.on("connect",   function(){ socket.emit('sub.live'); });
+  socket.on("reconnect", function(){ socket.emit('sub.live'); });
+
+  // Recieve live "wecare" data
   socket.on('wecare', function (data) {
     console.log("DBG: wecare:", data)
   });
+
+  // connections logger
+  socket.on("newconnection", function(data) {
+    console.log("DBG: got new connection", data)
+  })
 
 </script>
 </html>
