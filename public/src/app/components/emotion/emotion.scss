@@ -30,6 +30,7 @@ $color_mouth: #000000;
 }
 
 .face {
+  opacity: .6;
   @extend %circle;
 
   @include centered($size_face, $size_face);

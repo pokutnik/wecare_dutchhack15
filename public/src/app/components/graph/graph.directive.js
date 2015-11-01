@@ -52,6 +52,7 @@ class GraphController {
 
 // create chart
       window.setTimeout(()=> {
+
               // generate some data first
               generateChartData();
 
