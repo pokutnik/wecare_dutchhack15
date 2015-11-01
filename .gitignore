@@ -3,3 +3,5 @@ public/bower_components
 public/node_modules
 public/all_data.csv
 .DS_Store
+.idea/
+public/.idea/
