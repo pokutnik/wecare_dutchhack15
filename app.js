@@ -21,7 +21,9 @@ server.listen(appEnv.port, function () {
 });
 
 // Routing
+app.use(express.static(__dirname + '/public/dist'));
 app.use(express.static(__dirname + '/public'));
+
 
 io.on('connection', function (socket) {
   io.emit('newconnection', {
@@ -55,7 +57,7 @@ if (appEnv.isLocal) {
         data.ts = new Date().getTime();
         broadcast_live(data);
       }
-    }, 1000);
+    }, 600);
 }
 
 function str_to_obj(s) {

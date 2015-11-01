@@ -3,7 +3,7 @@ export class HealthService {
     'ngInject';
     this._healthUpdateRegistry = [];
 
-    this.socket = io('http://localhost:6001');
+    this.socket = io();
 
     // Subscribe to live "wecare" stream
     this.socket.on("connect",   () => { this.socket.emit('sub.live'); });
