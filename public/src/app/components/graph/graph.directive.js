@@ -84,38 +84,36 @@ class GraphController {
               chart.addValueAxis(valueAxis);
 
               // GRAPH
-              var graph = new AmCharts.AmGraph();
-              graph.title = "flow";
-              graph.valueField = "flow";
-              graph.bullet = "round";
-              graph.bulletBorderColor = "#0352b5";
-              graph.bulletBorderThickness = 2;
-              graph.lineThickness = 2;
-              graph.lineColor = "#0352b5";
-              graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
-              chart.addGraph(graph);
+              var flowGraph = new AmCharts.AmGraph();
+          flowGraph.title = "flow";
+          flowGraph.valueField = "flow";
+          flowGraph.bullet = "round";
+          flowGraph.bulletBorderColor = "#0352b5";
+          flowGraph.bulletBorderThickness = 2;
+          flowGraph.lineThickness = 5;
+          flowGraph.lineColorField = "linecolor";
+          flowGraph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+          chart.addGraph(flowGraph);
 
               // GRAPH
-              var graph = new AmCharts.AmGraph();
-              graph.title = "Low threshold";
-              graph.valueField = "low";
+              var lo = new AmCharts.AmGraph();
+                lo.title = "Low threshold";
+                lo.valueField = "low";
               //graph.bullet = "none";
-              graph.bulletBorderColor = "#44e533";
-              graph.lineColor = "#44e533";
-              graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
-              chart.addGraph(graph);
+          lo.bulletBorderColor = "#44e533";
+          lo.lineColor = "#44e533";
+          lo.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+              chart.addGraph(lo);
 
               // GRAPH
-              var graph = new AmCharts.AmGraph();
-              graph.title = "High threshold";
-              graph.valueField = "high";
-              graph.bullet = "none";
-
-
-              graph.lineThickness = 2;
-              graph.lineColor = "#bc1928";
-              graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
-              chart.addGraph(graph);
+              var hi = new AmCharts.AmGraph();
+              hi.title = "High threshold";
+              hi.valueField = "high";
+              hi.bullet = "none";
+              hi.lineThickness = 2;
+              hi.lineColor = "#bc1928";
+              hi.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+              chart.addGraph(hi);
 
               // CURSOR
               chartCursor = new AmCharts.ChartCursor();
@@ -124,7 +122,7 @@ class GraphController {
 
               // SCROLLBAR
               var chartScrollbar = new AmCharts.ChartScrollbar();
-              chartScrollbar.graph = graph;
+              chartScrollbar.graph = hi;
               chartScrollbar.scrollbarHeight = 40;
               chartScrollbar.color = "#FFFFFF";
               chartScrollbar.autoGridCount = true;
@@ -136,10 +134,21 @@ class GraphController {
               // set up the chart to update every second
               this.healthService.subscribeForUpdates((data)=>{
                   this.healthState = data;
-                  // normally you would load new datapoints here,
-                  // but we will just generate some random values
-                  // and remove the value from the beginning so that
-                  // we get nice sliding graph feeling
+
+                  //search for raw emotions in the emotion sentence string
+                  this.emotion = data.emotion.split(";")[0].replace(/\s+/g, '');
+                  let color;
+                  //TODO alpha verhouding tot emotie?
+                  switch (this.emotion){
+                      case "Happy" :
+                            color = "#44e533";
+                          break;
+                      case "Angry" :
+                          color = "#bc1928";
+                      default:
+                          color = "#0352b5";
+                          break;
+                  }
 
                   // remove datapoint from the beginning
                   if(chart.dataProvider.length > 120){
@@ -147,12 +156,15 @@ class GraphController {
                   }
 
                   //var visits = Math.round(Math.random() * 40) - 20;
-                  chart.dataProvider.push({
+                  let point = {
                       date: new Date(),
                       flow: data.flow,
                       high: data.hi,
-                      low: data.lo
-                  });
+                      low: data.lo,
+                      linecolor: color
+                  };
+
+                  chart.dataProvider.push(point);
                   chart.validateData();
               })
 

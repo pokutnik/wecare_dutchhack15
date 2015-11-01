@@ -1,6 +1,21 @@
-<md-content layout-fill flex>
-  <h1>Realtime emotional state</h1>
-  {{g.healthState | json}}
 
-  <div id="chartdiv"></div>
-</md-content>
+  <md-content layout="row">
+    <md-content flex>
+      <h1>Realtime emotional state</h1>
+      <md-content layout="row">
+        <span flex><b>Flow:</b> {{g.healthState.flow}}</span>
+        <span flex><b>Emotion: </b> {{g.healthState.emotion}}</span>
+        <span flex><b>Simple: </b>{{g.emotion}}</span>
+        <span flex><b>High threshold: </b> {{g.healthState.hi}}</span>
+        <span flex><b>Low threshold:</b> {{g.healthState.lo}}</span>
+      </md-content>
+      <br/>
+      <div id="chartdiv"></div>
+    </md-content>
+    <md-content flex>
+
+      <emotion state="{{g.emotion}}">
+
+      </emotion>
+    </md-content>
+  </md-content>

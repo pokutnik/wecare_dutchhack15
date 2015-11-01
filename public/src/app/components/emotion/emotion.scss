@@ -1,0 +1,95 @@
+
+
+$size_face: 300px;
+$size_eyes: 50px;
+$size_mouth: 3px;
+$color_bg: #ffff00;
+$color_eyes: #000000;
+$color_mouth: #000000;
+
+%circle{
+  border-radius: 50%;
+}
+
+@mixin centered($width, $height){
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: (-$height/2) 0 0 (-$width/2);
+}
+.yes {
+  background: #009966;
+  height: 100%;
+}
+
+.no {
+  background: #780000;
+  width: 50%;
+  height: 100%;
+  float: right;
+}
+
+.face {
+  @extend %circle;
+
+  @include centered($size_face, $size_face);
+
+  width: $size_face;
+  height: $size_face;
+
+  background: $color_bg;
+}
+
+.eye{
+  @extend %circle;
+
+  @include centered($size_eyes, $size_eyes);
+
+  margin-top: -$size_eyes*1.5;
+
+  width: $size_eyes;
+  height: $size_eyes;
+  background: $color_eyes;
+
+  &.left{
+    left: ($size_face/2) - $size_eyes;
+  }
+  &.right{
+    left: ($size_face/2) + $size_eyes;
+  }
+  /*
+    &:after{
+      $size_pupils: $size_eyes/4;
+      @extend %circle;
+
+      @include centered($size_pupils, $size_pupils);
+
+      content: '';
+
+      width: $size_pupils;
+      height: $size_pupils;
+      background: invert($color_eyes);
+    }
+  */
+}
+
+.mouth{
+  @include centered($size_face/2, $size_face/4);
+  margin-top:0;
+
+  width: $size_face/2;
+  height: $size_face/4;
+
+  transform-origin: 50% 100%;
+  transition: transform .5s, border-radius .5s;
+
+  border-bottom: $size_mouth solid $color_mouth;
+
+  .happy &{
+    @extend %circle;
+  }
+  .sad &{
+    @extend %circle;
+    transform : rotateX(180deg);
+  }
+}

@@ -16,8 +16,6 @@ export class HealthService {
           func(data)
         });
       });
-
-      console.log("DBG: wecare:", data)
     });
   }
 
