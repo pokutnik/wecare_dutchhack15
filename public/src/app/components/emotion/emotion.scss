@@ -84,6 +84,7 @@ $color_mouth: #000000;
   transition: transform .5s, border-radius .5s;
 
   border-bottom: $size_mouth solid $color_mouth;
+  border-radius: 15%;
 
   .happy &{
     @extend %circle;

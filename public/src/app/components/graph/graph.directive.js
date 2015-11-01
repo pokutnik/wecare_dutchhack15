@@ -151,7 +151,7 @@ class GraphController {
                   }
 
                   // remove datapoint from the beginning
-                  if(chart.dataProvider.length > 120){
+                  if(chart.dataProvider.length > 300){
                     chart.dataProvider.shift();
                   }
 
