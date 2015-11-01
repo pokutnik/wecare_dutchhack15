@@ -58,7 +58,7 @@ class GraphController {
 
               // SERIAL CHART
               chart = new AmCharts.AmSerialChart();
-              chart.pathToImages = "http://www.amcharts.com/lib/images/";
+              chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
               chart.marginTop = 0;
               chart.marginRight = 10;
               chart.autoMarginOffset = 5;
