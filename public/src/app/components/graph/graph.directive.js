@@ -85,14 +85,35 @@ class GraphController {
 
               // GRAPH
               var graph = new AmCharts.AmGraph();
-              graph.title = "red line";
-              graph.valueField = "visits";
+              graph.title = "flow";
+              graph.valueField = "flow";
               graph.bullet = "round";
-              graph.bulletBorderColor = "#FFFFFF";
+              graph.bulletBorderColor = "#0352b5";
               graph.bulletBorderThickness = 2;
               graph.lineThickness = 2;
-              graph.lineColor = "#b5030d";
-              graph.negativeLineColor = "#0352b5";
+              graph.lineColor = "#0352b5";
+              graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+              chart.addGraph(graph);
+
+              // GRAPH
+              var graph = new AmCharts.AmGraph();
+              graph.title = "Low threshold";
+              graph.valueField = "low";
+              //graph.bullet = "none";
+              graph.bulletBorderColor = "#44e533";
+              graph.lineColor = "#44e533";
+              graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+              chart.addGraph(graph);
+
+              // GRAPH
+              var graph = new AmCharts.AmGraph();
+              graph.title = "High threshold";
+              graph.valueField = "high";
+              graph.bullet = "none";
+
+
+              graph.lineThickness = 2;
+              graph.lineColor = "#bc1928";
               graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
               chart.addGraph(graph);
 
@@ -121,14 +142,16 @@ class GraphController {
                   // we get nice sliding graph feeling
 
                   // remove datapoint from the beginning
-                  if(chart.dataProvider.length > 50){
+                  if(chart.dataProvider.length > 120){
                     chart.dataProvider.shift();
                   }
 
                   //var visits = Math.round(Math.random() * 40) - 20;
                   chart.dataProvider.push({
                       date: new Date(),
-                      visits: data.flow
+                      flow: data.flow,
+                      high: data.hi,
+                      low: data.lo
                   });
                   chart.validateData();
               })
